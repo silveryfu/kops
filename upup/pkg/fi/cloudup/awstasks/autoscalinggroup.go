@@ -263,6 +263,9 @@ func (v *AutoscalingGroup) RenderAWS(t *awsup.AWSAPITarget, a, e, changes *Autos
 			VPCZoneIdentifier:    fi.String(strings.Join(e.AutoscalingGroupSubnets(), ",")),
 		}
 
+		// TODO(silvery): hack the placement group
+		request.SetPlacementGroup("perfd-" + *e.LaunchConfiguration.InstanceType)
+
 		// @check are we using a launch configuration, mixed instances policy, or launch template
 		if e.LaunchConfiguration != nil {
 			request.LaunchConfigurationName = e.LaunchConfiguration.ID
